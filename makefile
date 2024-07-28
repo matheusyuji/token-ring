@@ -1,5 +1,5 @@
-PROG = game
-OBJS = main.o
+PROG = play
+OBJS = main.o game.o socket.o
 
 CFLAGS = -g
 CC = gcc
