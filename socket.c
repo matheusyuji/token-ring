@@ -23,7 +23,7 @@ int create_socket () {
 }
 
 // configures a sockaddr_in structure
-void configure_address (struct sockaddr_in *addr, int port) {
+void configure_address (struct sockaddr_in *addr, int port, char *ips) {
   memset(addr, 0, sizeof(*addr));
   addr->sin_family = AF_INET;
   addr->sin_addr.s_addr = INADDR_ANY;
@@ -42,16 +42,19 @@ int bind_socket (int sockfd, struct sockaddr_in *addr) {
 }
 
 // initializes a player_socket_t structure
-player_socket_t* init_player_socket (int ports[], player_t* player) {
+player_socket_t* init_player_socket (int ports[], player_t* player, char *ips[]) {
   player_socket_t* p_socket = allocate_player_socket();
 
   p_socket->recv_port = ports[player->id];
   p_socket->send_port = ports[player->next_id];
 
+  p_socket->recv_ip = ips[player->id];
+  p_socket->send_ip = ips[player->next_id];
+
   p_socket->sockfd = create_socket();
-  configure_address (&(p_socket->recvaddr), p_socket->recv_port);
+  configure_address (&(p_socket->recvaddr), p_socket->recv_port, p_socket->recv_ip);
   bind_socket(p_socket->sockfd, &(p_socket->recvaddr));
-  configure_address (&(p_socket->sendaddr), p_socket->send_port);
+  configure_address (&(p_socket->sendaddr), p_socket->send_port, p_socket->send_ip);
 
   return p_socket;
 }

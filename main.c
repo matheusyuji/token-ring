@@ -7,15 +7,28 @@ int main (int argc, char **argv) {
   player_t *player = init_player(player_id);
 
   int ports[] = PORTS;
-  player_socket_t* p_socket = init_player_socket(ports, player);
+  char *ips[] = IPS;
 
+  player_socket_t* p_socket = init_player_socket(ports, player, ips);
+
+  char buffer[BUFFERSIZE];
   if (player_id == 0) {
-    char *hello = "hello from client";
-    send_msg (p_socket, hello);
+    snprintf(buffer, BUFFERSIZE, "hello from player %d", player_id);
+    send_msg(p_socket, buffer);
   }
-  else {
-    recv_msg (p_socket);
+
+  while (1) {
+    recv_msg(p_socket); 
+
+    snprintf(buffer, BUFFERSIZE, "hello from player %d", player_id);
+    send_msg(p_socket, buffer);
+
+    sleep(1); 
   }
+
+  close(p_socket->sockfd);
+  free(player);
+  free(p_socket);
 
   return 0;
 }
