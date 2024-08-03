@@ -36,8 +36,4 @@ typedef struct player_socket_t {
 
 player_socket_t* init_player_socket (int ports[], player_t* player, char *ips[]);
 
-void send_msg (player_socket_t* p_socket, const char* msg);
-
-int recv_msg (player_socket_t* p_socket);
-
 #endif

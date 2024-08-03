@@ -58,23 +58,3 @@ player_socket_t* init_player_socket (int ports[], player_t* player, char *ips[])
 
   return p_socket;
 }
-
-// sends a message to the configured address
-void send_msg (player_socket_t* p_socket, const char* msg) {
-  if (sendto(p_socket->sockfd, msg, strlen(msg), 0, (struct sockaddr *)&p_socket->sendaddr, sizeof(p_socket->sendaddr)) == -1) {
-    perror("failed to send message\n");
-  }
-}
-
-// receives a message from the configured address
-int recv_msg (player_socket_t* p_socket) {
-  char buffer[BUFFERSIZE];
-  memset(buffer, 0, BUFFERSIZE);
-  int len = sizeof(p_socket->recvaddr);
-
-  int n = recvfrom(p_socket->sockfd, (char *)buffer, BUFFERSIZE-1, MSG_WAITALL, (struct sockaddr*)&p_socket->recvaddr, &len);
-  buffer[n] = '\0';
-  printf("received message: %s\n", buffer);
-
-  return n;
-}

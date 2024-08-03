@@ -20,6 +20,7 @@ player_t* init_player(int id) {
 
   player->id = id;
   player->next_id = (id + 1) % 4;
+  player->baton = 0;
 
   return player;
 }

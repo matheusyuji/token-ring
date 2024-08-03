@@ -1,5 +1,7 @@
 #include "game.h"
 #include "socket.h"
+#include "message.h"
+#include "card.h"
 
 int main (int argc, char **argv) {
 
@@ -11,20 +13,30 @@ int main (int argc, char **argv) {
 
   player_socket_t* p_socket = init_player_socket(ports, player, ips);
 
-  char buffer[BUFFERSIZE];
+  message_t* msg = create_message ();
   if (player_id == 0) {
-    snprintf(buffer, BUFFERSIZE, "hello from player %d", player_id);
-    send_msg(p_socket, buffer);
+   
+    player->baton = 1;
+   
   }
 
   while (1) {
-    recv_msg(p_socket); 
-
-    snprintf(buffer, BUFFERSIZE, "hello from player %d", player_id);
-    send_msg(p_socket, buffer);
-
-    sleep(1); 
+    if (player->baton == 1) {
+      init_message(msg, player, 'P');
+      send_msg(p_socket, msg);
+      send_baton(p_socket, player);
+    } else  {
+      recv_msg(p_socket, msg);
+      
+      process_msg(msg, player);
+    }
   }
+  
+  //card_t* deck = NULL;
+  //criarBaralhoCompleto(&deck);
+  //imprimir_deck(deck);
+  //liberarBaralho(deck);
+
 
   close(p_socket->sockfd);
   free(player);
