@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "game.h"
 #include "socket.h"
 #include "message.h"
@@ -20,6 +22,8 @@ int main (int argc, char **argv) {
    
   }
 
+  implime_regra();
+
   while (1) {
     if (player->baton == 1) {
       init_message(msg, player, 'P');
@@ -32,10 +36,17 @@ int main (int argc, char **argv) {
     }
   }
   
-  //card_t* deck = NULL;
-  //criarBaralhoCompleto(&deck);
-  //imprimir_deck(deck);
-  //liberarBaralho(deck);
+
+  Deck_t* deck = NULL;
+  criarBaralhoCompleto(&deck); 
+
+  Shuffle_deck(deck);                         //enbaralha as cartas
+
+  card_t* manilha = deck->Deck[deck->total];  //escolhe a manilha do deck
+  deck->total--;
+
+  imprimir_deck(deck);
+  liberarBaralho(deck);
 
 
   close(p_socket->sockfd);
