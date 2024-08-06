@@ -47,5 +47,6 @@ void implime_regra(){
   printf("Exenplo: se seu palpite for 2 e voçê jogou 1, o jogador perde uma vida.\n");
   printf("\n");
   printf("Repetir essas fases até sobreviver um jogador que é o VENCEDOR !\n");
+  printf("ou até atingir o ROUND 5(neste caso, aquele que tiver mais vida é o VENCEDOR !)\n");
 
 }

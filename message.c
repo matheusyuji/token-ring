@@ -1,5 +1,6 @@
 #include "message.h"
 #include "game.h"
+#include "card.h"
 
 //  create a new message
 message_t* create_message () {
@@ -12,15 +13,17 @@ message_t* create_message () {
   msg->origin = 0;
   msg->dest = 0;
   msg->type = '0';
-  msg->num_cards = 0;
+  msg->card.numero = 0;
+  msg->card.tipo = 0;
 }
 
 // initialize a message with player information
-void init_message (message_t* msg, player_t* player, char type) {
+void init_message (message_t* msg, player_t* player, char type, Deck_t* D) {
   msg->origin = player->id;
   msg->dest = player->next_id;
   msg->type = type;
-  msg->num_cards = 5;
+  if(type == TYPE_BATON)
+    Draw_card(D, msg->card);
 }
 
 // sends a message to the configured address
@@ -65,7 +68,15 @@ void process_msg (message_t* msg, player_t* player) {
   
   case TYPE_PRINT:
     if (player->id == msg->dest)
-      printf ("Receive msg from %d to %d, type=%c and num_cards=%d\n", msg->origin, msg->dest, msg->type, msg->num_cards);
+      if(msg->card.tipo == 0)   printf ("Receive msg from %d to %d, type=%c and card= Spade :", msg->origin, msg->dest, msg->type);
+      else if(msg->card.tipo == 1)  printf ("Receive msg from %d to %d, type=%c and card= Club :", msg->origin, msg->dest, msg->type);
+      else if(msg->card.tipo == 2)  printf ("Receive msg from %d to %d, type=%c and card= Heart :", msg->origin, msg->dest, msg->type);
+      else printf ("Receive msg from %d to %d, type=%c and card= Diamond :", msg->origin, msg->dest, msg->type);
+
+      if(msg->card.numero == 11)  printf(" Jack\n");
+      else if(msg->card.numero == 12) printf(" Queen\n");
+      else if(msg->card.numero == 13) printf(" King\n");
+      else printf(" %d\n");
     break;
     
   default:

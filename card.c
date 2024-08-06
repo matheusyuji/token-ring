@@ -35,6 +35,12 @@ void Shuffle_deck(Deck_t* D){
     }
 }
 
+void Draw_card(Deck_t* D, card_t C){
+    C.numero = D->Deck[D->total]->numero;
+    C.tipo = D->Deck[D->total]->tipo;
+    D->total--;
+}
+
 void imprimir_deck(Deck_t* D){
     for(int i = 0; i < D->total; i++){
         if(D->Deck[i]->tipo == 0)    printf("Spade   ");

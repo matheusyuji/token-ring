@@ -10,12 +10,12 @@ typedef struct message_t {
   int origin;
   int dest;
   char type;
-  int num_cards;
+  card_t card;
 } message_t;
 
 message_t* create_message ();
 
-void init_message (message_t* msg, player_t* player, char type);
+void init_message (message_t* msg, player_t* player, char type, Deck_t* D);
 
 void send_msg (player_socket_t* p_socket, message_t* msg);
 

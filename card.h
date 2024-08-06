@@ -14,14 +14,16 @@ typedef struct Deck_t{
     card_t *Deck[40];   //vetor de cartas que restam no baralho(lista)
 }Deck_t;
 
-void criarBaralhoCompleto(Deck_t*);
+void criarBaralhoCompleto(Deck_t* Deck);
 
-void trade_card (Deck_t* ,int, int);    //muda a posição de duas cartas
+void trade_card (Deck_t* D ,int value1, int value2);    //muda a posição de duas cartas
 
-void Shuffle_deck(Deck_t*);             //embalha as cartas
+void Shuffle_deck(Deck_t* D);             //embalha as cartas
 
-void imprimir_deck(Deck_t*);
+void Draw_card(Deck_t* D, card_t C);
 
-void liberarBaralho(Deck_t*);
+void imprimir_deck(Deck_t* D);
+
+void liberarBaralho(Deck_t* D);
 
 #endif
